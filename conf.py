@@ -21,6 +21,8 @@ project = 'Alamvic'
 copyright = '2021, Guillermo Polito'
 author = 'Guillermo Polito'
 
+master_doc = 'index'
+
 
 # -- General configuration ---------------------------------------------------
 
