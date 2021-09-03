@@ -54,4 +54,8 @@ html_theme = 'karma_sphinx_theme'
 html_static_path = ['_static']
 
 html_show_sourcelink = False
-#showheader = False
+html_theme_options = {
+    # 'navigation_depth': 3,
+    'titles_only': False,
+    # 'includehidden': False,
+}
