@@ -19,8 +19,8 @@ set -o errexit
 ###################
  
 apt-get update
-apt-get -y install git rsync python3-sphinx python3-sphinx-rtd-theme
-pip install karma-sphinx-theme
+apt-get -y install git rsync python3-sphinx python3-sphinx-rtd-theme python3-pip
+python3-pip install karma-sphinx-theme
  
 #####################
 # DECLARE VARIABLES #
