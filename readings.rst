@@ -1,2 +1,2 @@
-Readings
+VM Learning Material
 ===================================
