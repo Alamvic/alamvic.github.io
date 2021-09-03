@@ -10,7 +10,10 @@
 # Updated: 2020-07-17
 # Version: 0.1
 ################################################################################
- 
+
+# make your script exit when a command fails
+set -o errexit 
+
 ###################
 # INSTALL DEPENDS #
 ###################
