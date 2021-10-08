@@ -1,5 +1,3 @@
-# Projects
-
 ## Druid: Meta-interpretation for Just-In-Time compiler generation
 
 The Druid project explores the automatic generation of machine code templates from bytecode interpreters using an abstract interpreter on the existing bytecode interpreter (a meta-interpreter).
