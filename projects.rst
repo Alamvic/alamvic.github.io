@@ -5,4 +5,4 @@ Projects
 .. toctree::
     :hidden:
 
-    druid
+    duird/druid
