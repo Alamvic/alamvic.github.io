@@ -4,10 +4,13 @@ Alamvic
 .. toctree::
     :hidden:
 
+    :caption: Projects
     druid
+    :caption: More Info
     positions
     publications
     readings
+    :caption: Institutional
     Pharo <https://pharo.org>
     Inria <https://inria.fr>
 
