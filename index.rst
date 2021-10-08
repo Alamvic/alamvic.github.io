@@ -8,8 +8,7 @@ Alamvic
     projects
     positions
     publications
-    readings
-    :caption: Institutional
+    readings/index
     Pharo <https://pharo.org>
     Inria <https://inria.fr>
 
