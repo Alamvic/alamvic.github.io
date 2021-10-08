@@ -1,4 +1,5 @@
-### Projects
+Projects
+========
 
 
 .. toctree::
