@@ -1,5 +1,7 @@
 Projects
 ========
 
-.. include:: druid/druid.md
-.. include:: ranger/ranger.md
+.. toctree::
+    
+    druid/druid.md
+    ranger/ranger.md

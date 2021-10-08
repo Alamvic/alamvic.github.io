@@ -1,11 +1,11 @@
 Alamvic
-===================================
+#######
+
 
 .. toctree::
     :hidden:
 
     projects
-    
     positions
     publications
     readings
