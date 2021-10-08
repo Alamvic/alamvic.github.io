@@ -1,11 +1,9 @@
-Druid: Meta-interpretation for Just-In-Time compiler generation
-===================================
+## Druid: Meta-interpretation for Just-In-Time compiler generation
 
 The Druid project explores the automatic generation of machine code templates from bytecode interpreters using an abstract interpreter on the existing bytecode interpreter (a meta-interpreter).
 This approach could benefit from having a single runtime implementation and having a JIT compiler generated from it.
 
-Overview
---------
+### Overview
 
 JIT (Just-in-Time) compilers are an optimization technique often used for interpreted languages and virtual machines.
 They allow to spend time optimizing only frequently used code, while falling back in slower execution engines for non-frequent code.
@@ -21,11 +19,9 @@ This architecture has as drawback that the behavior of the Pharo language is dup
 
 The Druid project explores the automatic generation of machine code templates from bytecode interpreters using an abstract interpreter on the existing bytecode interpreter (a meta-interpreter).
 
-Context
---------
+### Context
 
-An overview of the Pharo VM
-^^^^^^^^^
+#### An overview of the Pharo VM
 
 The Pharo VM is a program that executes Pharo programs.
 Its main components are execution engine, and a memory manager.
@@ -38,8 +34,7 @@ To produce a productive VM the Slang Pharo code is transpiled to C and then comp
 
 Druid works on the Slang part of the VM, and its scope does not touch (for now) the C-code generation.
 
-Bytecodes and a stack machine
-^^^^^^^^^
+#### Bytecodes and a stack machine
 
 Pharo methods are written as bytecodes and primitives.
 For example, the following method is compiled as a method made of platform independent bytecode and an array of literals (also called literal frame) used in that method.
@@ -68,8 +63,7 @@ Then, the third bytecode has to send a message `+`, so it pops two elements from
 When the execution of the message send finishes, the result is pushed to the stack.
 Finally, the last bytecode takes the top of the stack (the result of the addition), and returns it to the caller.
 
-Understanding the bytecode interpreter
-^^^^^^^^^
+#### Understanding the bytecode interpreter
 
 When a bytecode method is executed by the interpreter, it iterates all bytecodes of a method and executes a VM routine for each of them.
 The class implementing the bytecode interpreter is `StackInterpreter`.
@@ -126,8 +120,7 @@ StackInterpreter >> bytecodePrimAdd
 	self normalSend
 ```
 
-The Cogit JIT compiler
-^^^^^^^^^
+#### The Cogit JIT compiler
 
 When a bytecode method is executed a couple of times, the Pharo virtual machine decides to compile it to machine code.
 Compiling the method to machine code avoids performance overhead due to instruction fetching, and allows one to perform several optimizations.
@@ -152,8 +145,7 @@ StackToRegisterMappingCogit >> genPushLiteralIndex: literalIndex "<SmallInteger>
 
 The JIT'ted version of the addition bytecode (`genSpecialSelectorArithmetic`) is slightly more complicated, but it pretty much matches what it is done in the bytecode.
 
-Overview of Druid
---------
+### Overview of Druid
 
 In Druid, a meta-interpreter analyzes the bytecode interpreter code and generates an intermediate representation from it.
 A compiler interface then generates machine code from the intermediate representation.
@@ -163,9 +155,7 @@ To verify the correctness of the compiler we use:
  - a machine code simulator (Unicorn)
  - a disassembler (llvm)
 
-Little exercises
---------
-
+### Little exercises
 - In tbe book [https://github.com/SquareBracketAssociates/PatternsOfDesign/releases](https://github.com/SquareBracketAssociates/PatternsOfDesign/releases)
 - Chapter 4: Die and DieHandle double Dispatch (if you want to make sure that Double Dispatch has been understood do the Stone Paper Scissor Chapter)
 - Chapter 3 A little expression interpreter
@@ -173,8 +163,7 @@ Little exercises
 - After reading [https://github.com/SquareBracketAssociates/Booklet-FunWithInterpreters](https://github.com/SquareBracketAssociates/Booklet-FunWithInterpreters)
 
 
-References
---------
+### References
  - Linear Scan Register Allocation for the Java HotSpot™ Client Compiler
    http://www.ssw.uni-linz.ac.at/Research/Papers/Wimmer04Master/
  - Practical partial evaluation for high-performance dynamic language runtimes
