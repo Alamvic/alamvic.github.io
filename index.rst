@@ -4,7 +4,9 @@ Alamvic
 .. toctree::
     :hidden:
 
-    projects
+    druid/druid
+    ranger/ranger
+    
     positions
     publications
     readings
