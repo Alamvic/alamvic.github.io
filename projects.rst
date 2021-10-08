@@ -1,0 +1,7 @@
+### Projects
+
+
+.. toctree::
+    :hidden:
+
+    druid

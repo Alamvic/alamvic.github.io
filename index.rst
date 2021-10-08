@@ -4,9 +4,7 @@ Alamvic
 .. toctree::
     :hidden:
 
-    :caption: Projects
-    druid
-    :caption: More Info
+    projects
     positions
     publications
     readings
