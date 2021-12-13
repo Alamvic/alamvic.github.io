@@ -15,6 +15,7 @@ We have positions to work on topics such as (but not limited to):
 - automatic compiler testing and verification
 - benchmarking and profiling
 - garbage collection
+- abstract interpretation and symbolic execution
 
 As an example, here are a list of different projects that happened during 2020-2021
 
