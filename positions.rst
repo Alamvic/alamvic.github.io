@@ -2,10 +2,13 @@ Positions
 ===================================
 
 Are you looking for an internship, engineer or PhD position on Virtual Machines and language implementations?
+
 We in the RMoD team are looking for curious and talented people!
+
 Contact us at <guillermo[dot]polito[at]univ-lille.fr>
 
 We have positions to work on topics such as (but not limited to):
+
 - interpreters
 - compiler infrastructure: intermediate representations, optimisations
 - automatic compiler generation
