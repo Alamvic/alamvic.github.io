@@ -25,5 +25,5 @@ News
 =====
 
 .. important::
-  We will present in MPLR'21 our work around profiling code caches and Virtual Machine unit testing!
-  https://wwuindico.uni-muenster.de/event/449/program
+  We presented our work on JIT validation at PLDI'22
+  https://pldi22.sigplan.org/details/pldi-2022-pldi/32/Interpreter-guided-Differential-JIT-Compiler-Unit-Testing
