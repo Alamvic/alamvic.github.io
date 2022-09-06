@@ -1,3 +1,4 @@
 Publications
 ===================================
 
+.. bibliography::

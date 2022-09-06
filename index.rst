@@ -6,6 +6,7 @@ Alamvic
     :hidden:
 
     projects
+    publications
     positions
     readings/index
     Pharo <https://pharo.org>

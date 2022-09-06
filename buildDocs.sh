@@ -20,7 +20,7 @@ set -o errexit
  
 apt-get update
 apt-get -y install git rsync python3-sphinx python3-sphinx-rtd-theme python3-pip
-pip3 install karma-sphinx-theme myst-parser
+pip3 install karma-sphinx-theme myst-parser sphinxcontrib-bibtex
  
 #####################
 # DECLARE VARIABLES #
