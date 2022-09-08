@@ -1,0 +1,345 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Druid: Meta-interpretation for Just-In-Time compiler generation &mdash; Alamvic  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Ranger: Automatic VM Testing" href="../ranger/ranger.html" />
+    <link rel="prev" title="Projects" href="../projects.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                Alamvic
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+          <li><a href="../projects.html">Projects</a></li>
+        
+      <li>Druid: Meta-interpretation for Just-In-Time compiler generation</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../projects.html">Projects</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Druid: Meta-interpretation for Just-In-Time compiler generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ranger/ranger.html">Ranger: Automatic VM Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../publications.html">Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../positions.html">Positions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readings/index.html">VM Learning Material</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readings/interpreters.html">Bytecode Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readings/interpreters.html#interpreter-performance">Interpreter Performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readings/jit.html">Dynamic Compilation, PICs and Speculative Optimisations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://pharo.org">Pharo</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://rmod.gitlabpages.inria.fr/website/">RMoD</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://inria.fr">Inria</a></li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <section id="druid-meta-interpretation-for-just-in-time-compiler-generation">
+<h1>Druid: Meta-interpretation for Just-In-Time compiler generation<a class="headerlink" href="#druid-meta-interpretation-for-just-in-time-compiler-generation" title="Permalink to this heading">¶</a></h1>
+<p>The Druid project explores the automatic generation of machine code templates from bytecode interpreters using an abstract interpreter on the existing bytecode interpreter (a meta-interpreter).
+This approach could benefit from having a single runtime implementation and having a JIT compiler generated from it.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
+<p>JIT (Just-in-Time) compilers are an optimization technique often used for interpreted languages and virtual machines.
+They allow to spend time optimizing only frequently used code, while falling back in slower execution engines for non-frequent code.
+For example, the Pharo and the Java VM run on a bytecode interpreter and eventually compile machine code for methods that are frequently called.</p>
+<p>Nowadays, the Pharo Virtual Machine is implemented in a subset of the Pharo language called Slang.
+The Virtual Machine developers then benefit from the high-level tools used to work with Pharo code, such as the code editors, testing frameworks and debuggers.
+In a later stage, the Virtual Machine code written in Slang is transpiled to C and then compiled to the target architectures.</p>
+<p>The current Pharo JIT compiler that is part of the Virtual Machine, aka Cogit, implements an architecture based on templates of native code per bytecode.
+When a method is compiled, each bytecode is mapped to its corresponding template. All templates are concatenated to form a single machine code method.
+This architecture has as drawback that the behavior of the Pharo language is duplicated in both the bytecode interpreter and their corresponding machine code templates.</p>
+<p>The Druid project explores the automatic generation of machine code templates from bytecode interpreters using an abstract interpreter on the existing bytecode interpreter (a meta-interpreter).</p>
+</section>
+<section id="context">
+<h2>Context<a class="headerlink" href="#context" title="Permalink to this heading">¶</a></h2>
+<section id="an-overview-of-the-pharo-vm">
+<h3>An overview of the Pharo VM<a class="headerlink" href="#an-overview-of-the-pharo-vm" title="Permalink to this heading">¶</a></h3>
+<p>The Pharo VM is a program that executes Pharo programs.
+Its main components are execution engine, and a memory manager.
+The execution engine is made of an interpreter (a bytecode interpreter), and a JIT compiler that compiles to machine code methods that are used often.
+The memory manager implements how objects are stored in memory, and an automatic reclamation of memory (usually called garbage collector).</p>
+<p>The Pharo VM is implemented in a subset Pharo itself called Slang.
+Thus, we can use Pharo tools to execute, test and debug the VM in a “simulated” manner.
+To produce a productive VM the Slang Pharo code is transpiled to C and then compiled in the current architecture.</p>
+<p>Druid works on the Slang part of the VM, and its scope does not touch (for now) the C-code generation.</p>
+</section>
+<section id="bytecodes-and-a-stack-machine">
+<h3>Bytecodes and a stack machine<a class="headerlink" href="#bytecodes-and-a-stack-machine" title="Permalink to this heading">¶</a></h3>
+<p>Pharo methods are written as bytecodes and primitives.
+For example, the following method is compiled as a method made of platform independent bytecode and an array of literals (also called literal frame) used in that method.
+The bytecodes are virtual machine code instructions, the literals are the objects that represent fixed values used in that method.
+For example, 1 and 17 are literals in this method. Besides numbers, other kind of literals are <code class="docutils literal notranslate"><span class="pre">'strings'</span></code>, literal arrays such as <code class="docutils literal notranslate"><span class="pre">#(a</span> <span class="pre">b</span> <span class="pre">c</span> <span class="pre">1)</span></code> and characters <code class="docutils literal notranslate"><span class="pre">$A</span></code>.</p>
+<div class="highlight-smalltalk notranslate"><div class="highlight"><pre><span></span>MyClass &gt;&gt; foo
+  ^ 1 + 17
+</pre></div>
+</div>
+<p>We can inspect the method above <code class="docutils literal notranslate"><span class="pre">MyClass</span> <span class="pre">&gt;&gt;</span> <span class="pre">foo</span></code> and see its bytecodes and literals.
+In the list below the first number is the bytecode index, the second is the instruction bytes, and then there is a mnemonic of the instruction and arguments.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">25</span> <span class="o">&lt;</span><span class="mi">76</span><span class="o">&gt;</span> <span class="n">pushConstant</span><span class="p">:</span> <span class="mi">1</span>
+<span class="mi">26</span> <span class="o">&lt;</span><span class="mi">20</span><span class="o">&gt;</span> <span class="n">pushConstant</span><span class="p">:</span> <span class="mi">17</span>
+<span class="mi">27</span> <span class="o">&lt;</span><span class="n">B0</span><span class="o">&gt;</span> <span class="n">send</span><span class="p">:</span> <span class="o">+</span>
+<span class="mi">28</span> <span class="o">&lt;</span><span class="mi">7</span><span class="n">C</span><span class="o">&gt;</span> <span class="n">returnTop</span>
+</pre></div>
+</div>
+<p>It is important to understant that the Pharo bytecode is based on a stack machine (in contrast with register machines).
+This means that most of the data between operations is exchanged through a stack.
+In the example above, the first bytecode pushes a 1 into the stack and the second bytecode pushes a 2.
+Then, the third bytecode has to send a message <code class="docutils literal notranslate"><span class="pre">+</span></code>, so it pops two elements from the stack: one to use as the receiver, and one to use as an argument.
+When the execution of the message send finishes, the result is pushed to the stack.
+Finally, the last bytecode takes the top of the stack (the result of the addition), and returns it to the caller.</p>
+</section>
+<section id="understanding-the-bytecode-interpreter">
+<h3>Understanding the bytecode interpreter<a class="headerlink" href="#understanding-the-bytecode-interpreter" title="Permalink to this heading">¶</a></h3>
+<p>When a bytecode method is executed by the interpreter, it iterates all bytecodes of a method and executes a VM routine for each of them.
+The class implementing the bytecode interpreter is <code class="docutils literal notranslate"><span class="pre">StackInterpreter</span></code>.
+For example, the <code class="docutils literal notranslate"><span class="pre">pushConstantOneBytecode</span></code> is the routine that pushes a 1 to the stack calling the <code class="docutils literal notranslate"><span class="pre">internalPush:</span></code> method.
+Since pushing the value 1 is a very common operation, a special bytecode is used for it to avoid putting the 1 in the literal frame.</p>
+<div class="highlight-smalltalk notranslate"><div class="highlight"><pre><span></span><span class="nc">StackInterpreter</span> <span class="nf">&gt;&gt;</span> <span class="nv">pushConstantOneBytecode</span>
+
+	<span class="nf">self</span> <span class="nf">fetchNextBytecode</span><span class="p">.</span>
+	<span class="bp">self</span> <span class="nf">internalPush:</span> <span class="nc">ConstOne</span><span class="p">.</span>
+</pre></div>
+</div>
+<p>The method <code class="docutils literal notranslate"><span class="pre">pushLiteralConstantBytecode</span></code> pushes a generic literal value to the stack also using <code class="docutils literal notranslate"><span class="pre">internalPush:</span></code>.
+The value pushed is taken from the literal frame of the method, and the index is calculated from manipulating the <code class="docutils literal notranslate"><span class="pre">currentBytecode</span></code> variable.
+Bytecode 33 pushes the first literal in the frame (33 bitAnd: 16r1F =&gt; 1), bytecode 34 pushes the second literal, and so on…</p>
+<div class="highlight-smalltalk notranslate"><div class="highlight"><pre><span></span><span class="nc">StackInterpreter</span> <span class="nf">&gt;&gt;</span> <span class="nv">pushLiteralConstantBytecode</span>
+	<span class="nf">&lt;</span><span class="nv">expandCases</span><span class="nf">&gt;</span>
+	<span class="bp">self</span>
+		<span class="nf">cCode:</span> <span class="c">&quot;this bytecode will be expanded so that refs to currentBytecode below will be constant&quot;</span>
+			[<span class="bp">self</span> <span class="nf">fetchNextBytecode</span><span class="p">.</span>
+			 <span class="bp">self</span> <span class="nf">pushLiteralConstant:</span> (<span class="nv">currentBytecode</span> <span class="nf">bitAnd:</span> <span class="m">16r1</span><span class="nf">F</span>)]
+		<span class="nf">inSmalltalk:</span> <span class="c">&quot;Interpreter version has fetchNextBytecode out of order&quot;</span>
+			[<span class="bp">self</span> <span class="nf">pushLiteralConstant:</span> (<span class="nv">currentBytecode</span> <span class="nf">bitAnd:</span> <span class="m">16r1</span><span class="nf">F</span>)<span class="p">.</span>
+			 <span class="bp">self</span> <span class="nf">fetchNextBytecode</span>]
+</pre></div>
+</div>
+<p>Finally, bytecodes such as the message send <code class="docutils literal notranslate"><span class="pre">+</span></code> are implemented as follows.
+First this bytecode gets the top 2 values from the stack.
+Then it checks if boths are integers, and if the result is an integer, in which case it pushes the value and finishes.
+If they are not integers, it tries to add them as floats.
+If that fails, it will perform a (slow) message send using the <code class="docutils literal notranslate"><span class="pre">normalSend</span></code> method.</p>
+<div class="highlight-smalltalk notranslate"><div class="highlight"><pre><span></span><span class="nc">StackInterpreter</span> <span class="nf">&gt;&gt;</span> <span class="nv">bytecodePrimAdd</span>
+	<span class="nf">|</span> <span class="nv">rcvr</span> <span class="nf">arg</span> <span class="nf">result</span> <span class="nf">|</span>
+	<span class="nv">rcvr</span> <span class="o">:=</span> <span class="bp">self</span> <span class="nf">internalStackValue:</span> <span class="m">1</span><span class="p">.</span>
+	<span class="nv">arg</span> <span class="o">:=</span> <span class="bp">self</span> <span class="nf">internalStackValue:</span> <span class="m">0</span><span class="p">.</span>
+	(<span class="nv">objectMemory</span> <span class="nf">areIntegers:</span> <span class="nv">rcvr</span> <span class="nf">and:</span> <span class="nv">arg</span>)
+		<span class="nb">ifTrue:</span> [<span class="nv">result</span> <span class="o">:=</span> (<span class="nv">objectMemory</span> <span class="nf">integerValueOf:</span> <span class="nv">rcvr</span>) <span class="nf">+</span> (<span class="nv">objectMemory</span> <span class="nf">integerValueOf:</span> <span class="nv">arg</span>)<span class="p">.</span>
+				(<span class="nv">objectMemory</span> <span class="nf">isIntegerValue:</span> <span class="nv">result</span>) <span class="nb">ifTrue:</span>
+					[<span class="bp">self</span> <span class="nf">internalPop:</span> <span class="m">2</span> <span class="nf">thenPush:</span> (<span class="nv">objectMemory</span> <span class="nf">integerObjectOf:</span> <span class="nv">result</span>)<span class="p">.</span>
+					<span class="o">^</span> <span class="bp">self</span> <span class="nf">fetchNextBytecode</span> <span class="c">&quot;success&quot;</span>]]
+		<span class="nb">ifFalse:</span> [<span class="bp">self</span> <span class="nf">initPrimCall</span><span class="p">.</span>
+				<span class="bp">self</span> <span class="nf">externalizeIPandSP</span><span class="p">.</span>
+				<span class="bp">self</span> <span class="nf">primitiveFloatAdd:</span> <span class="nv">rcvr</span> <span class="nf">toArg:</span> <span class="nv">arg</span><span class="p">.</span>
+				<span class="bp">self</span> <span class="nf">internalizeIPandSP</span><span class="p">.</span>
+				<span class="bp">self</span> <span class="nf">successful</span> <span class="nb">ifTrue:</span> [<span class="o">^</span> <span class="bp">self</span> <span class="nf">fetchNextBytecode</span> <span class="c">&quot;success&quot;</span>]]<span class="p">.</span>
+
+	<span class="nv">messageSelector</span> <span class="o">:=</span> <span class="bp">self</span> <span class="nf">specialSelector:</span> <span class="m">0</span><span class="p">.</span>
+	<span class="nv">argumentCount</span> <span class="o">:=</span> <span class="m">1</span><span class="p">.</span>
+	<span class="bp">self</span> <span class="nf">normalSend</span>
+</pre></div>
+</div>
+</section>
+<section id="the-cogit-jit-compiler">
+<h3>The Cogit JIT compiler<a class="headerlink" href="#the-cogit-jit-compiler" title="Permalink to this heading">¶</a></h3>
+<p>When a bytecode method is executed a couple of times, the Pharo virtual machine decides to compile it to machine code.
+Compiling the method to machine code avoids performance overhead due to instruction fetching, and allows one to perform several optimizations.
+The compilation of a machine code method goes pretty similar to the interpretation of a method.
+The JIT compiler iterates the bytecode method and for each of the bytecodes it executes a code generation routine.
+This means that we will (almost) have a counterpart for each of the VM methods implementing bytecode interpretation.</p>
+<p>For example, the machine code generator implemented for <code class="docutils literal notranslate"><span class="pre">StackInterpreter&gt;&gt;pushLiteralConstantBytecode</span></code> is <code class="docutils literal notranslate"><span class="pre">Cogit&gt;&gt;genPushLiteralConstantBytecode</span></code>.</p>
+<div class="highlight-smalltalk notranslate"><div class="highlight"><pre><span></span>Cogit &gt;&gt; genPushLiteralConstantBytecode
+	^self genPushLiteralIndex: (byte0 bitAnd: 31)
+
+StackToRegisterMappingCogit &gt;&gt; genPushLiteralIndex: literalIndex &quot;&lt;SmallInteger&gt;&quot;
+	&quot;Override to avoid the BytecodeSetHasDirectedSuperSend check, which is unnecessary
+	 here given the simulation stack.&quot;
+	&lt;inline: false&gt;
+	| literal |
+	literal := self getLiteral: literalIndex.
+	^self genPushLiteral: literal
+</pre></div>
+</div>
+<p>The JIT’ted version of the addition bytecode (<code class="docutils literal notranslate"><span class="pre">genSpecialSelectorArithmetic</span></code>) is slightly more complicated, but it pretty much matches what it is done in the bytecode.</p>
+</section>
+</section>
+<section id="overview-of-druid">
+<h2>Overview of Druid<a class="headerlink" href="#overview-of-druid" title="Permalink to this heading">¶</a></h2>
+<p>In Druid, a meta-interpreter analyzes the bytecode interpreter code and generates an intermediate representation from it.
+A compiler interface then generates machine code from the intermediate representation.
+The output of the intermediate representation should have in general terms the same behaviour as the existing Cogit JIT compiler.</p>
+<p>To verify the correctness of the compiler we use:</p>
+<ul class="simple">
+<li><p>a machine code simulator (Unicorn)</p></li>
+<li><p>a disassembler (llvm)</p></li>
+</ul>
+</section>
+<section id="little-exercises">
+<h2>Little exercises<a class="headerlink" href="#little-exercises" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>In tbe book <a class="reference external" href="https://github.com/SquareBracketAssociates/PatternsOfDesign/releases">https://github.com/SquareBracketAssociates/PatternsOfDesign/releases</a></p></li>
+<li><p>Chapter 4: Die and DieHandle double Dispatch (if you want to make sure that Double Dispatch has been understood do the Stone Paper Scissor Chapter)</p></li>
+<li><p>Chapter 3 A little expression interpreter</p></li>
+<li><p>Chapter 6 Understanding visitor</p></li>
+<li><p>After reading <a class="reference external" href="https://github.com/SquareBracketAssociates/Booklet-FunWithInterpreters">https://github.com/SquareBracketAssociates/Booklet-FunWithInterpreters</a></p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Linear Scan Register Allocation for the Java HotSpot™ Client Compiler
+http://www.ssw.uni-linz.ac.at/Research/Papers/Wimmer04Master/</p></li>
+<li><p>Practical partial evaluation for high-performance dynamic language runtimes
+https://dl.acm.org/doi/10.1145/3062341.3062381</p></li>
+<li><p>Structure and Interpretation of Computer Programs
+http://web.mit.edu/alexmv/6.037/sicp.pdf</p></li>
+<li><p>Fun with Interpreters
+https://github.com/SquareBracketAssociates/Booklet-FunWithInterpreters/releases/download/continuous/fun-with-interpreters-wip.pdf</p></li>
+<li><p><a class="reference external" href="https://gitlab.inria.fr/RMOD/vm-papers/-/blob/master/compilation+JIT/2016_Trace-based%20Register%20Allocation%20in%20a%20JIT%20Compiler.pdf">Trace-Based Register Allocation</a></p></li>
+<li><p>Paper explaining the motivations behind Sista Bytecode
+https://github.com/SquareBracketAssociates/Booklet-PharoVirtualMachine/raw/master/bib/iwst2014_A%20bytecode%20set%20for%20adaptive%20optimizations.pdf</p></li>
+<li><p>https://github.com/unicorn-engine/unicorn</p></li>
+<li><p>https://github.com/guillep/pharo-unicorn</p></li>
+<li><p>http://llvm.org/</p></li>
+<li><p>https://github.com/guillep/pharo-llvmDisassembler</p></li>
+</ul>
+</section>
+</section>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'en',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2021, Guillermo Polito.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.
+        </div>
+    </div>  
+
+</body>
+</html>
